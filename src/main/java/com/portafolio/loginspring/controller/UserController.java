@@ -1,7 +1,9 @@
 package com.portafolio.loginspring.controller;
 
+import com.portafolio.loginspring.entity.Login;
 import com.portafolio.loginspring.entity.Usuario;
 import com.portafolio.loginspring.entity.request.AddUserRequest;
+import com.portafolio.loginspring.entity.request.LoginUserRequest;
 import com.portafolio.loginspring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,8 @@ public class UserController {
 
         return userRepository.findAll();
     }
+
+
 
     @PostMapping(value="/agregar")
     public void addUser(@RequestBody AddUserRequest addUserRequest ){
