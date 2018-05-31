@@ -40,6 +40,7 @@ public class UserController {
         usuario.setNombre(addUserRequest.getNombre());
         usuario.setsNombre(addUserRequest.getsNombre());
         usuario.setRol(addUserRequest.getRol());
+        usuario.setIdEmpresa(1);
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
         EntityManager entityManager= entityManagerFactory.createEntityManager();

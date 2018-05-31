@@ -24,6 +24,16 @@ public class Usuario {
     private String contraseña;
     @Column(name="ROL_IDROL")
     private int rol;
+    @Column(name="EMPRESA_IDEMPRESA")
+    private int idEmpresa;
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
 
     public int getRol() {
         return rol;

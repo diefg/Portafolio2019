@@ -6,6 +6,16 @@ public class AddUserRequest {
     private String nombre;
     private String sNombre;
     private int rol;
+    private int idEmpresa;
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
 
     public String getNombre() {
         return nombre;
