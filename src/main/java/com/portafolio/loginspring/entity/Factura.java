@@ -1,20 +1,24 @@
 package com.portafolio.loginspring.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="FACTURA")
 public class Factura {
     @Id
     @Column(name="IDFACTURA")
-    int idFactura;
+    private int idFactura;
     @Column(name="ORDENCOMPRA_IDDOC")
-    int idOc;
+    private int idOc;
     @Column(name="TIPOMONEDA")
-    String tipoMoneda;
+    private String tipoMoneda;
+
+
+    @OneToMany(targetEntity = DetalleFactura.class, cascade = CascadeType.ALL)
+    private List<DetalleFactura> detalles = new ArrayList<>();
+
 
     public int getIdFactura() {
         return idFactura;
