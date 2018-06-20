@@ -4,31 +4,38 @@ import com.portafolio.loginspring.entity.Login;
 import com.portafolio.loginspring.entity.Usuario;
 import com.portafolio.loginspring.entity.request.AddUserRequest;
 import com.portafolio.loginspring.entity.request.LoginUserRequest;
-import com.portafolio.loginspring.repository.UserRepository;
+import com.portafolio.loginspring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UserController {
-    private UserRepository userRepository;
 
     @Autowired
-    public  UserController(UserRepository userRepository){
+    private UsuarioRepository userRepository;
+
+    @Autowired
+    public  UserController(UsuarioRepository userRepository){
         this.userRepository = userRepository;
     }
 
     //@RequestMapping(method = RequestMethod.GET)
     @GetMapping(value="/todos")
-    public List<Usuario> findAllUsers(){
+    public List<Usuario> findAllUsuarios(){
+        List<Usuario> usr = new ArrayList<>();
+        userRepository.findAll().forEach(usr::add);
+        return usr;
 
-        return userRepository.findAll();
     }
+
 
 
 

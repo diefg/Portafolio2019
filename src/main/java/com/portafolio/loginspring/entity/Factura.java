@@ -14,17 +14,12 @@ public class Factura {
     private int idOc;
     @Column(name="TIPOMONEDA")
     private String tipoMoneda;
-
-
-
-
-    @OneToMany(mappedBy = "",targetEntity = DetalleFactura.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "FACTURA_IDFACTURA",referencedColumnName = "IDFACTURA")
-    private List<DetalleFactura> detalles = new ArrayList<>();
-
-    public List<DetalleFactura> getDetalles() {
+    List<DetalleFactura> getDetalles() {
         return detalles;
     }
+
+    @OneToMany(mappedBy = "factura", targetEntity = DetalleFactura.class, cascade = CascadeType.ALL)
+    private List<DetalleFactura> detalles = new ArrayList<>();
 
     public void setDetalles(List<DetalleFactura> detalles) {
         this.detalles = detalles;

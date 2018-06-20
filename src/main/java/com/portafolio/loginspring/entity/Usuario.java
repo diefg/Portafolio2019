@@ -1,11 +1,13 @@
 package com.portafolio.loginspring.entity;
 
+import com.portafolio.loginspring.repository.UsuarioRepository;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="USUARIO")
+
 public class Usuario {
 
     /*
