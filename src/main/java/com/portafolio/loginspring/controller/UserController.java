@@ -41,17 +41,17 @@ public class UserController {
 
     @PostMapping(value="/login")
     public ResponseEntity<?> login(@RequestBody LoginUserRequest loginUserRequest){
-
-        Boolean existe;
-        Login login = new Login();
-        Usuario u = new Usuario();
         String mensaje;
-        login.setUsuario(loginUserRequest.getUsuario());
-        login.setContraseña(loginUserRequest.getContraseña());
-        existe=userRepository.existsById(login.getUsuario());
-        if (existe){
-            mensaje="Bienvenido "+login.getUsuario();
-            return new ResponseEntity<>(mensaje,HttpStatus.OK);
+        //cambiar existebyid por findByid y si != null & loginrequest.contraseña = findusuario.contreseña son iguales
+        Usuario u;
+        u=userRepository.findById(loginUserRequest.getUsuario()).get();
+        if (u!=null){
+            mensaje="Bienvenido "+u.getUsuario();
+            //Inicio de mensaje Json, se devolverá mensaje con rol y permisos
+            List<String> json = new ArrayList<>();
+            json.add(mensaje);
+            json.add(String.valueOf(u.getRol()));
+            return new ResponseEntity<>(json,HttpStatus.OK);
 //            u=userRepository.getUsuarioFromId(login.getUsuario());
 //            ResponseBodye
         }else{
