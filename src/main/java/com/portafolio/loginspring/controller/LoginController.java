@@ -17,8 +17,10 @@ import javax.persistence.Persistence;
 @RequestMapping("/usuarios")
 public class LoginController {
 
-    @PostMapping(value="/login")
+    @PostMapping(value="/loginViejo")
     public boolean login(@RequestBody LoginUserRequest loginUserRequest){
+
+
         Login login = new Login();
         login.setUsuario(loginUserRequest.getUsuario());
         login.setContraseña(loginUserRequest.getContraseña());

@@ -11,6 +11,9 @@ import java.util.List;
 @RestController
 public interface UsuarioRepository extends CrudRepository<Usuario, String> {
 
+
+  // Usuario getUsuarioFromId(String id);
+
     //List<Usuario> findAll();
 
 

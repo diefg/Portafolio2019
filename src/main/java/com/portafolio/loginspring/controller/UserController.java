@@ -7,6 +7,8 @@ import com.portafolio.loginspring.entity.request.LoginUserRequest;
 import com.portafolio.loginspring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -14,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -33,6 +36,28 @@ public class UserController {
         List<Usuario> usr = new ArrayList<>();
         userRepository.findAll().forEach(usr::add);
         return usr;
+
+    }
+
+    @PostMapping(value="/login")
+    public ResponseEntity<?> login(@RequestBody LoginUserRequest loginUserRequest){
+
+        Boolean existe;
+        Login login = new Login();
+        Usuario u = new Usuario();
+        String mensaje;
+        login.setUsuario(loginUserRequest.getUsuario());
+        login.setContraseña(loginUserRequest.getContraseña());
+        existe=userRepository.existsById(login.getUsuario());
+        if (existe){
+            mensaje="Bienvenido "+login.getUsuario();
+            return new ResponseEntity<>(mensaje,HttpStatus.OK);
+//            u=userRepository.getUsuarioFromId(login.getUsuario());
+//            ResponseBodye
+        }else{
+            mensaje="Error en credenciales";
+            return new ResponseEntity<>(mensaje,HttpStatus.UNAUTHORIZED);
+        }
 
     }
 
