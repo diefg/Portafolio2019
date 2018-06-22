@@ -1,9 +1,17 @@
 package com.portafolio.loginspring.entity;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.portafolio.loginspring.repository.UsuarioRepository;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="USUARIO")
@@ -25,9 +33,14 @@ public class Usuario {
     @Column(name="CONTRASEÑA")
     private String contraseña;
     @Column(name="ROL_IDROL")
-    private int rol;
+    private int rolInt;
     @Column(name="EMPRESA_IDEMPRESA")
     private int idEmpresa;
+
+
+    @ManyToOne(targetEntity = Rol.class)
+    @JoinColumn(name = "IDROL")
+    private List<Rol> rols = new ArrayList<>();
 
     public int getIdEmpresa() {
         return idEmpresa;
@@ -38,11 +51,11 @@ public class Usuario {
     }
 
     public int getRol() {
-        return rol;
+        return rolInt;
     }
 
     public void setRol(int rol) {
-        this.rol = rol;
+        this.rolInt = rol;
     }
 
     /*
@@ -85,5 +98,23 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+/*
+    @JsonSerialize(using = RolSerializer.class)
+    public Rol getRol() {
+        return rol;
+    }
+    */
+
+    public class RolSerializer extends JsonSerializer<Rol> {
+        @Override
+        public void serialize(Rol rol, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+                throws IOException, JsonProcessingException {
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeStringField("rol", rol.getNombre());
+            jsonGenerator.writeStringField("vigente", String.valueOf(rol.getVigente()));
+            jsonGenerator.writeEndObject();
+        }
     }
 }

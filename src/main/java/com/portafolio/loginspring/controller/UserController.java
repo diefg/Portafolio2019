@@ -48,10 +48,7 @@ public class UserController {
         if (u!=null){
             mensaje="Bienvenido "+u.getUsuario();
             //Inicio de mensaje Json, se devolverá mensaje con rol y permisos
-            List<String> json = new ArrayList<>();
-            json.add(mensaje);
-            json.add(String.valueOf(u.getRol()));
-            return new ResponseEntity<>(json,HttpStatus.OK);
+            return new ResponseEntity<>(u,HttpStatus.OK);
 //            u=userRepository.getUsuarioFromId(login.getUsuario());
 //            ResponseBodye
         }else{
