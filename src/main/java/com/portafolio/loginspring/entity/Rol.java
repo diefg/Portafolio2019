@@ -1,5 +1,6 @@
 package com.portafolio.loginspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,10 +22,9 @@ public class Rol {
 
     @Column(name="VIGENTE")
     private Integer vigente;
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Usuario.class,fetch = FetchType.LAZY)
+
+    @JsonIgnore
+    @OneToMany(targetEntity = Usuario.class, mappedBy = "rol")
     private List<Usuario> usuarios = new ArrayList<>();
-
-
-
-
 }

@@ -1,9 +1,11 @@
 package com.portafolio.loginspring.controller;
 
 import com.portafolio.loginspring.entity.Login;
+import com.portafolio.loginspring.entity.Rol;
 import com.portafolio.loginspring.entity.Usuario;
 import com.portafolio.loginspring.entity.request.AddUserRequest;
 import com.portafolio.loginspring.entity.request.LoginUserRequest;
+import com.portafolio.loginspring.repository.RolRepository;
 import com.portafolio.loginspring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UsuarioRepository userRepository;
+    @Autowired
+    private RolRepository rolRepository;
 
     @Autowired
     public  UserController(UsuarioRepository userRepository){
@@ -36,26 +40,27 @@ public class UserController {
         List<Usuario> usr = new ArrayList<>();
         userRepository.findAll().forEach(usr::add);
         return usr;
-
     }
 
+
+
     @PostMapping(value="/login")
-    public ResponseEntity<?> login(@RequestBody LoginUserRequest loginUserRequest){
+    public Usuario login(@RequestBody LoginUserRequest loginUserRequest){
+        System.out.println("espera");
         String mensaje;
         //cambiar existebyid por findByid y si != null & loginrequest.contraseña = findusuario.contreseña son iguales
-        Usuario u;
-        u=userRepository.findById(loginUserRequest.getUsuario()).get();
-        if (u!=null){
-            mensaje="Bienvenido "+u.getUsuario();
+        Optional<Usuario> usuarioOptional = userRepository.findById(loginUserRequest.getUsuario());
+
+        if (usuarioOptional.isPresent()){
+            //mensaje="Bienvenido "+u.getUsuario();
             //Inicio de mensaje Json, se devolverá mensaje con rol y permisos
-            return new ResponseEntity<>(u,HttpStatus.OK);
+
+            return usuarioOptional.get();
 //            u=userRepository.getUsuarioFromId(login.getUsuario());
 //            ResponseBodye
-        }else{
-            mensaje="Error en credenciales";
-            return new ResponseEntity<>(mensaje,HttpStatus.UNAUTHORIZED);
         }
 
+        throw new RuntimeException("Error de credenciales");
     }
 
 
@@ -67,16 +72,10 @@ public class UserController {
         usuario.setUsuario(addUserRequest.getUsuario());
         usuario.setContraseña(addUserRequest.getContraseña());
         usuario.setNombre(addUserRequest.getNombre());
-        usuario.setsNombre(addUserRequest.getsNombre());
-        usuario.setRol(addUserRequest.getRol());
+        usuario.setSNombre(addUserRequest.getsNombre());
+        usuario.setRol(rolRepository.findById(addUserRequest.getRol()).get());
         usuario.setIdEmpresa(1);
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.tutorial.jpa");
-        EntityManager entityManager= entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(usuario);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        System.out.println("espera");
         userRepository.save(usuario);
 
     }

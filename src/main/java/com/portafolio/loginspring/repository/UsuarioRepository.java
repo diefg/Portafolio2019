@@ -16,9 +16,9 @@ public interface UsuarioRepository extends CrudRepository<Usuario, String> {
 
     //List<Usuario> findAll();
 
-    @Override
-    @Query("select u from Usuario u JOIN com.portafolio.loginspring.entity.Rol r where r.IDROL=u.IDROL")
-    List<Usuario> findAll();
+    //@Override
+    //@Query("select u from Usuario u JOIN com.portafolio.loginspring.entity.Rol r where r.IDROL=u.IDROL")
+    //List<Usuario> findAll();
 
     //EmployeeBE saveEmployee(EmployeeBE employeeBE);
 
