@@ -1,23 +1,38 @@
 package com.portafolio.loginspring.controller;
 
 import com.portafolio.loginspring.entity.Factura;
+import com.portafolio.loginspring.entity.Usuario;
 import com.portafolio.loginspring.entity.request.FacturaRequest;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.portafolio.loginspring.repository.FacturaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/factura")
 public class FacturaController {
 
+    @Autowired
+    private FacturaRepository facturaRepository;
     @PostMapping(value="/obternerFactura")
-    public Factura obtener(@RequestBody FacturaRequest facturaRequest){
-        Factura factura = new Factura();
-        factura.setIdFactura(123);
-        factura.setIdOc(0);
-        factura.setTipoMoneda("CLP");
-        return factura;
+    public Optional<Factura> obtener(@RequestBody FacturaRequest facturaRequest){
+        Optional<Factura> facturaOptional = facturaRepository.findById(facturaRequest.getIdfactura());
+        return facturaOptional;
+    }
+
+    @GetMapping(value="/todos")
+    public List<Factura> findAllFacturas(){
+        List<Factura> facturas = new ArrayList<>();
+        facturaRepository.findAll().forEach(facturas::add);
+        return facturas;
+    }
+
+    @PostMapping(value = "agregar")
+    public void addFactura(@RequestBody FacturaRequest facturaRequest){
+
     }
 
 }

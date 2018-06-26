@@ -1,9 +1,12 @@
 package com.portafolio.loginspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
 @Entity
 @Table(name="FACTURA")
 public class Factura {
@@ -14,38 +17,8 @@ public class Factura {
     private int idOc;
     @Column(name="TIPOMONEDA")
     private String tipoMoneda;
-    List<DetalleFactura> getDetalles() {
-        return detalles;
-    }
 
-    @OneToMany(mappedBy = "factura", targetEntity = DetalleFactura.class, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "factura")
     private List<DetalleFactura> detalles = new ArrayList<>();
 
-    public void setDetalles(List<DetalleFactura> detalles) {
-        this.detalles = detalles;
-    }
-
-    public int getIdFactura() {
-        return idFactura;
-    }
-
-    public void setIdFactura(int idFactura) {
-        this.idFactura = idFactura;
-    }
-
-    public int getIdOc() {
-        return idOc;
-    }
-
-    public void setIdOc(int idOc) {
-        this.idOc = idOc;
-    }
-
-    public String getTipoMoneda() {
-        return tipoMoneda;
-    }
-
-    public void setTipoMoneda(String tipoMoneda) {
-        this.tipoMoneda = tipoMoneda;
-    }
 }
