@@ -27,4 +27,7 @@ public class Habitacion {
     @Column(name = "TIPOCAMA")
     private String tipoCama;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    private Estado estado;
+
 }

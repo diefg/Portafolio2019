@@ -1,12 +1,12 @@
 package com.portafolio.loginspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.lang.ref.PhantomReference;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,4 +21,10 @@ public class Estado {
 
     @Column(name = "ENTIDAD")
     private String entidad;
+
+    @JsonIgnore
+    @OneToMany(targetEntity = Habitacion.class, mappedBy = "estado")
+    private List<Habitacion> habitaciones = new ArrayList<>();
+
+
 }
