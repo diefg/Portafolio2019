@@ -33,9 +33,12 @@ public class Usuario {
     @Column(name="CONTRASEÑA")
     private String contraseña;
 
-    @Column(name="EMPRESA_IDEMPRESA")
-    private int idEmpresa;
+    //@Column(name="EMPRESA_IDEMPRESA")
+    //private int idEmpresa;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     private Rol rol;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    private Empresa empresa;
 }

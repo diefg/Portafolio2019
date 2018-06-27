@@ -17,6 +17,8 @@ public class Factura {
     private int idOc;
     @Column(name="TIPOMONEDA")
     private String tipoMoneda;
+    @Column
+
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "factura")
     private List<DetalleFactura> detalles = new ArrayList<>();

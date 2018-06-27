@@ -1,21 +1,16 @@
 package com.portafolio.loginspring.controller;
 
-import com.portafolio.loginspring.entity.Login;
-import com.portafolio.loginspring.entity.Rol;
 import com.portafolio.loginspring.entity.Usuario;
 import com.portafolio.loginspring.entity.request.AddUserRequest;
 import com.portafolio.loginspring.entity.request.LoginUserRequest;
+import com.portafolio.loginspring.repository.EmpresaRepository;
 import com.portafolio.loginspring.repository.RolRepository;
 import com.portafolio.loginspring.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +23,9 @@ public class UserController {
     private UsuarioRepository userRepository;
     @Autowired
     private RolRepository rolRepository;
-
     @Autowired
-    public  UserController(UsuarioRepository userRepository){
-        this.userRepository = userRepository;
-    }
+    private EmpresaRepository empresaRepository;
+
 
     //@RequestMapping(method = RequestMethod.GET)
     @GetMapping(value="/todos")
@@ -54,7 +47,6 @@ public class UserController {
         if (usuarioOptional.isPresent()){
             //mensaje="Bienvenido "+u.getUsuario();
             //Inicio de mensaje Json, se devolverá mensaje con rol y permisos
-
             return usuarioOptional.get();
 //            u=userRepository.getUsuarioFromId(login.getUsuario());
 //            ResponseBodye
@@ -63,25 +55,36 @@ public class UserController {
         throw new RuntimeException("Error de credenciales");
     }
 
-
-
-
     @PostMapping(value="/agregar")
-    public void addUser(@RequestBody AddUserRequest addUserRequest ){
+    public ResponseEntity<UserController> addUser(@RequestBody AddUserRequest addUserRequest ){
         Usuario usuario = new Usuario();
         usuario.setUsuario(addUserRequest.getUsuario());
         usuario.setContraseña(addUserRequest.getContraseña());
         usuario.setNombre(addUserRequest.getNombre());
         usuario.setSNombre(addUserRequest.getsNombre());
         usuario.setRol(rolRepository.findById(addUserRequest.getRol()).get());
-        usuario.setIdEmpresa(1);
-        System.out.println("espera");
-        userRepository.save(usuario);
-
+        usuario.setEmpresa(empresaRepository.findById(addUserRequest.getIdEmpresa()).get());
+        if (usuario!=null){
+            if (!userRepository.existsById(usuario.getUsuario())){
+                userRepository.save(usuario);
+                return new ResponseEntity<UserController>(HttpStatus.OK);
+            }else {
+                return new ResponseEntity<UserController>(HttpStatus.CONFLICT);
+            }
+        }else{
+            return new ResponseEntity<UserController>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-
-
-
+    @GetMapping(value="/borrar")
+    public ResponseEntity<UserController> deleteUsuario(@RequestParam String usuario){
+        if (userRepository.existsById(usuario)){
+            userRepository.deleteById(usuario);
+            return new ResponseEntity<UserController>(HttpStatus.OK);
+        }else{
+            //String mensaje="Usuario "+usuario+" No fue encontrado";
+            return new ResponseEntity<UserController>(HttpStatus.CONFLICT);
+        }
+    }
 
 }

@@ -22,7 +22,7 @@ public class Huesped {
     @Column(name = "FECHAENTRADA")
     private java.sql.Date fechaEntrada;
 
-    @Column(name = "FECHAENTRADA")
+    @Column(name = "FECHASALIDA")
     private java.sql.Date fechaSalida;
 
     @Column(name = "NOMBREUSUARIO")

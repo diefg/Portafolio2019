@@ -12,7 +12,6 @@ public class AddUserRequest {
         return idEmpresa;
     }
 
-
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
     }

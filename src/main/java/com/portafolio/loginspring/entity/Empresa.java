@@ -1,11 +1,11 @@
 package com.portafolio.loginspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,4 +23,10 @@ public class Empresa {
     private String rutEmpresa;
     @Column(name = "TELEFONOEMPRESA")
     private Integer telefono;
-    }
+
+    @JsonIgnore
+    @OneToMany(targetEntity = Usuario.class, mappedBy = "empresa")
+    private List<Usuario> usuarios = new ArrayList<>();
+
+
+}
