@@ -2,7 +2,7 @@ package com.portafolio.loginspring.entity.request;
 
 public class LoginUserRequest {
     String usuario;
-    String contraseña;
+    String contrasena;
 
     public String getUsuario() {
         return usuario;
@@ -12,11 +12,19 @@ public class LoginUserRequest {
         this.usuario = usuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginUserRequest{" +
+                "usuario='" + usuario + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                '}';
     }
 }
