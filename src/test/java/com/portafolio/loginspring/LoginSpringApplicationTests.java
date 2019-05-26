@@ -1,6 +1,7 @@
 package com.portafolio.loginspring;
 
 import com.portafolio.loginspring.BD.OracleSql;
+import com.portafolio.loginspring.entity.request.CreateClientRequest;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,16 +40,16 @@ public class LoginSpringApplicationTests {
     public void testCrearUsuario(){
         Connection conn= OracleSql.getConnection();
         CallableStatement storedProc = null;
+        CreateClientRequest createClientRequest= new CreateClientRequest(1234,"Test","TestApellido","Direccion test 1",1,"TEST@TEST.CL",1);
         try {
-            //storedProc = conn.prepareCall("call sp_modificar_usuario(?,?,?,?,?)");
-            storedProc = conn.prepareCall("call sp_modificar_usuario(5,'test1','test2',13,1)");
-
-            storedProc.setInt(1,5);
-            storedProc.setString(2, "ModifiestestUser");
-            storedProc.setString(3, "ModifiestestPsw");
-            storedProc.setInt(4,13);
-            storedProc.setInt(5,1);
-            System.out.println(storedProc.toString());
+            storedProc = conn.prepareCall("call sp_insertar_cliente(?,?,?,?,?,?,?)");
+            storedProc.setInt(1,createClientRequest.getRut());
+            storedProc.setString(2, createClientRequest.getNombre());
+            storedProc.setString(3, createClientRequest.getApellido());
+            storedProc.setString(4, createClientRequest.getDireccion());
+            storedProc.setInt(5, createClientRequest.getComuna());
+            storedProc.setString(6, createClientRequest.getCorreo());
+            storedProc.setInt(7, createClientRequest.getIdUsuario());
             storedProc.execute();
             conn.close();
         } catch (SQLException e) {
