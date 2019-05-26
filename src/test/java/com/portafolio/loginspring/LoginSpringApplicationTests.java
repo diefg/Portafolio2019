@@ -1,5 +1,6 @@
 package com.portafolio.loginspring;
 
+import com.portafolio.loginspring.BD.OracleSql;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,27 @@ public class LoginSpringApplicationTests {
             e.printStackTrace();
         }catch (NullPointerException nul){
             System.out.println("no hay nada");
+        }
+    }
+
+    @Test
+    public void testCrearUsuario(){
+        Connection conn= OracleSql.getConnection();
+        CallableStatement storedProc = null;
+        try {
+            //storedProc = conn.prepareCall("call sp_modificar_usuario(?,?,?,?,?)");
+            storedProc = conn.prepareCall("call sp_modificar_usuario(5,'test1','test2',13,1)");
+
+            storedProc.setInt(1,5);
+            storedProc.setString(2, "ModifiestestUser");
+            storedProc.setString(3, "ModifiestestPsw");
+            storedProc.setInt(4,13);
+            storedProc.setInt(5,1);
+            System.out.println(storedProc.toString());
+            storedProc.execute();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
