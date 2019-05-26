@@ -3,6 +3,7 @@ package com.portafolio.loginspring.controller.cliente;
 import com.portafolio.loginspring.BD.OracleSql;
 import com.portafolio.loginspring.entity.request.CreateClientRequest;
 import com.portafolio.loginspring.entity.request.CreateUserRequest;
+import com.portafolio.loginspring.entity.request.ModifyClientRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.CallableStatement;
@@ -40,6 +41,27 @@ public class ClienteController {
         try {
             storedProc = conn.prepareCall("call sp_eliminar_cliente(?)");
             storedProc.setInt(1,id);
+            storedProc.execute();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping(value = "/modificar")
+    public void crearUsuario(@RequestBody ModifyClientRequest modifyClientRequest) {
+        Connection conn= OracleSql.getConnection();
+        CallableStatement storedProc = null;
+        try {
+            storedProc = conn.prepareCall("call sp_modificar_cliente(?,?,?,?,?,?,?,?)");
+            storedProc.setInt(1,modifyClientRequest.getId());
+            storedProc.setInt(2,modifyClientRequest.getRut());
+            storedProc.setString(3, modifyClientRequest.getNombre());
+            storedProc.setString(4, modifyClientRequest.getApellido());
+            storedProc.setString(5, modifyClientRequest.getDireccion());
+            storedProc.setInt(6, modifyClientRequest.getComuna());
+            storedProc.setString(7, modifyClientRequest.getCorreo());
+            storedProc.setInt(8, modifyClientRequest.getIdUsuario());
             storedProc.execute();
             conn.close();
         } catch (SQLException e) {
