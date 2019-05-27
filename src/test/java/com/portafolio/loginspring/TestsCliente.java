@@ -61,6 +61,7 @@ public class TestsCliente {
             storedProc.setInt(6, modifyClientRequest.getComuna());
             storedProc.setString(7, modifyClientRequest.getCorreo());
             storedProc.setInt(8, modifyClientRequest.getIdUsuario());
+
             storedProc.execute();
             conn.close();
         } catch (SQLException e) {
